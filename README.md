@@ -140,8 +140,6 @@ La conexión está configurada en `DBManager.java` con los siguientes valores po
 
 ```java
 private static final String URL      = "jdbc:mysql://localhost:3306/escena_del_crimen";
-private static final String USER     = "root";
-private static final String PASSWORD = "root";
 ```
 
 Si tu configuración de MySQL es diferente, edita estos valores en `src/main/java/org/example/config/DBManager.java` antes de ejecutar.
