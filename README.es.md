@@ -1,105 +1,125 @@
-Me lo pasas TAL CUAL con el texto en ingles porfa?
-# 🎬 Escena del Crimen — Gestión de Películas con Java & MySQL
+# 🎬 Crime Scene — Movie Management with Java & MySQL
 
-> Aplicación de consola en Java puro (vanilla) que permite gestionar un catálogo de películas conectado a una base de datos MySQL. Implementa el patrón MVC completo con acceso a datos mediante JDBC.
-
----
-
-## 📋 Tabla de Contenidos
-
-- [Descripción](#descripción)
-- [Tecnologías](#tecnologías)
-- [Arquitectura del Proyecto](#arquitectura-del-proyecto)
-- [Requisitos Previos](#requisitos-previos)
-- [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
-- [Instalación y Ejecución](#instalación-y-ejecución)
-- [Uso de la Aplicación](#uso-de-la-aplicación)
-- [Estructura de Clases](#estructura-de-clases)
-- [Notas de Desarrollo](#notas-de-desarrollo)
+> Console application built in pure Java (vanilla) to manage a movie catalog connected to a MySQL database. Implements a full MVC architecture with JDBC data access.
 
 ---
 
-## Descripción
+## 📋 Table of Contents
 
-**Escena del Crimen** es una aplicación de línea de comandos desarrollada en **Java 21 sin frameworks**, cuyo objetivo es gestionar un catálogo de películas almacenado en una base de datos MySQL. El proyecto sirve como ejercicio práctico de acceso a bases de datos relacionales con JDBC, arquitectura MVC en Java puro y manejo de operaciones CRUD.
+- [Description](#description)
+- [Technologies](#technologies)
+- [Project Architecture](#project-architecture)
+    - [Data Flow](#data-flow)
+- [Prerequisites](#prerequisites)
+- [Database Configuration](#database-configuration)
+    - [1. Create the database and table](#1-create-the-database-and-table)
+    - [2. Connection credentials](#2-connection-credentials)
+- [Installation and Execution](#installation-and-execution)
+    - [Option 1 — Command line with Maven](#option-1--command-line-with-maven)
+    - [Option 2 — IntelliJ IDEA](#option-2--intellij-idea)
+    - [Option 3 — Build an executable JAR](#option-3--build-an-executable-jar)
+- [Application Usage](#application-usage)
+    - [List all movies](#list-all-movies)
+    - [Create a movie (via MovieView)](#create-a-movie-via-movieview)
+- [Class Structure](#class-structure)
+    - [Movie.java — Model](#moviejava--model)
+    - [DBManager.java — Configuration](#dbmanagerjava--configuration)
+    - [MovieRepositoryImp.java — Repository](#movierepositoryimpjava--repository)
+    - [MovieController.java — Controller](#moviecontrollerjava--controller)
+    - [MovieView.java — View](#movieviewjava--view)
+- [Development Notes](#development-notes)
+- [License](#license)
 
-Las funcionalidades principales incluyen:
+---
 
-- Listar todas las películas almacenadas en la base de datos.
-- Crear nuevas películas de forma interactiva desde la consola.
-- Gestionar información detallada: título, año, director, actores, puntuación FilmAffinity, descripción, URL de imagen y precio.
+## Description
 
-| Tecnología | Versión | Rol |
+**Crime Scene** is a command-line application developed in **Java 25 without frameworks**, designed to manage a movie catalog stored in a MySQL database.
+
+This project serves as a practical exercise in:
+
+- Relational database access with JDBC
+- MVC architecture in pure Java
+- CRUD operations handling
+
+### Main Features
+
+- List all movies stored in the database
+- Create new movies interactively from the console
+- Manage detailed information: title, year, director, actors, FilmAffinity score, description, image URL, and price
+
+---
+
+## 🛠️ technologies
+
+| Technology | Version | Purpose in the Project |
 |---|---|---|
-| Java | 21 | Lenguaje principal |
-| Maven | 3.x | Gestor de dependencias y build |
-| MySQL Connector/J | 8.3.0 | Driver JDBC para MySQL |
-| MySQL | 8.x | Base de datos relacional |
-| IntelliJ IDEA / Eclipse | — | IDE recomendado |
+| Java (JDK) | 25 | Main programming language |
+| Maven | 3.x | Dependency management and build automation |
+| JDBC | — | Relational database connectivity |
+| MySQL Connector/J | 8.3.0 | JDBC driver for MySQL |
+| MySQL | 8.x | Database Management System |
+| IntelliJ IDEA / Eclipse | — | Development Environment (IDE) |
 
 ---
----
 
-## Tecnologías
+## Project Architecture
 
-
-## Arquitectura del Proyecto
-
-El proyecto sigue el patrón **MVC (Modelo - Vista - Controlador)** con una capa adicional de repositorio para el acceso a datos:
+The project follows the **MVC pattern (Model – View – Controller)** with an additional repository layer for data access:
 
 ```
-escena_del_crimen_java_vanilla-main/
+VideoclubFinal/
 │
-├── pom.xml                          # Configuración Maven y dependencias
+├── pom.xml
 │
 └── src/main/java/org/example/
     │
-    ├── Main.java                    # Punto de entrada de la aplicación
+    ├── Main.java
     │
     ├── config/
-    │   └── DBManager.java           # Gestión de conexión JDBC a MySQL
+    │   └── DBManager.java
     │
     ├── model/
-    │   └── Movie.java               # Entidad/POJO que representa una película
+    │   └── Movie.java
     │
     ├── repository/
-    │   └── MovieRepositoryImp.java  # Acceso a datos: SQL con JDBC (CRUD)
+    │   └── MovieRepositoryImp.java
     │
     ├── controller/
-    │   └── MovieController.java     # Lógica de negocio e intermediario MVC
+    │   └── MovieController.java
     │
     └── view/
-        └── MovieView.java           # Interacción con el usuario por consola
+        └── MovieView.java
 ```
 
-### Flujo de datos
+### Data Flow
 
 ```
-Usuario (Consola)
+User (Console)
       ↓
-  MovieView          ← Lee datos del usuario con Scanner
+  MovieView          ← Reads user input via Scanner
       ↓
-  MovieController    ← Valida y delega operaciones
+  MovieController    ← Validates and delegates operations
       ↓
-  MovieRepositoryImp ← Ejecuta queries SQL con JDBC
+  MovieRepositoryImp ← Executes SQL queries via JDBC
       ↓
-  DBManager          ← Abre/cierra conexión con MySQL
+  DBManager          ← Opens/closes MySQL connection
       ↓
-  Base de datos MySQL (escena_del_crimen)
+  MySQL Database (escena_del_crimen)
 ```
 
 ---
 
-## Requisitos Previos
+## Prerequisites
 
-Antes de ejecutar el proyecto, asegúrate de tener instalado:
+Make sure the following software is installed:
 
-- **Java 21** o superior → [Descargar JDK](https://adoptium.net/)
-- **Maven 3.6+** → [Descargar Maven](https://maven.apache.org/download.cgi)
-- **MySQL 8.x** en ejecución local → [Descargar MySQL](https://dev.mysql.com/downloads/)
-- **IntelliJ IDEA** o cualquier IDE compatible con Maven (opcional pero recomendado)
+- **Java 25 (JDK)** or higher → https://adoptium.net/
+- **Maven 3.6+** → https://maven.apache.org/download.cgi
+- **MySQL 8.x** running locally → https://dev.mysql.com/downloads/
+- **IntelliJ IDEA** or any Maven-compatible IDE (optional but recommended)
 
-Comprueba las versiones instaladas:
+Check installed versions:
 
 ```bash
 java -version
@@ -109,11 +129,11 @@ mysql --version
 
 ---
 
-## Configuración de la Base de Datos
+## Database Configuration
 
-### 1. Crear la base de datos y la tabla
+### 1. Create the database and table
 
-Ejecuta el siguiente script SQL en tu instancia de MySQL:
+Run the following SQL script in your MySQL instance:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS escena_del_crimen;
@@ -133,42 +153,47 @@ CREATE TABLE IF NOT EXISTS films (
 );
 ```
 
-> ⚠️ **Atención:** el nombre de la columna en la base de datos es `filmAffinittyScore` (con doble `t`), tal como está definido en el código. Respeta este nombre para evitar errores en las queries.
-
-### 2. Credenciales de conexión
-
-La conexión está configurada en `DBManager.java` con los siguientes valores por defecto:
-
-```java
-private static final String URL      = "jdbc:mysql://localhost:3306/escena_del_crimen";
-```
-
-Si tu configuración de MySQL es diferente, edita estos valores en `src/main/java/org/example/config/DBManager.java` antes de ejecutar.
+> ⚠️ **Important:** The column name is `filmAffinittyScore` (double **t**), exactly as defined in the code. Keep it unchanged to avoid SQL errors.
 
 ---
 
-## Instalación y Ejecución
+### 2. Connection credentials
 
-### Opción 1 — Desde la línea de comandos con Maven
+Database connection is configured in `DBManager.java`:
+
+```java
+private static final String URL = "jdbc:mysql://localhost:3306/escena_del_crimen";
+```
+
+If your MySQL setup differs, edit the values in:
+
+```
+src/main/java/org/example/config/DBManager.java
+```
+
+---
+
+## Installation and Execution
+
+### Option 1 — Command line with Maven
 
 ```bash
-# 1. Clona o descomprime el proyecto
 cd escena_del_crimen_java_vanilla-main
-
-# 2. Compila y descarga dependencias
 mvn clean compile
-
-# 3. Ejecuta la aplicación
 mvn exec:java -Dexec.mainClass="org.example.Main"
 ```
 
-### Opción 2 — Desde IntelliJ IDEA
+---
 
-1. Abre IntelliJ IDEA → **File > Open** → selecciona la carpeta del proyecto.
-2. IntelliJ detectará el `pom.xml` automáticamente e importará las dependencias.
-3. Abre `Main.java` y pulsa el botón ▶ **Run**.
+### Option 2 — IntelliJ IDEA
 
-### Opción 3 — Generar un JAR ejecutable
+1. Open IntelliJ IDEA → **File > Open** → select the project folder
+2. IntelliJ will detect `pom.xml` and import dependencies
+3. Open `Main.java` → click ▶ **Run**
+
+---
+
+### Option 3 — Build an executable JAR
 
 ```bash
 mvn clean package
@@ -177,109 +202,117 @@ java -jar target/EscenaDelCrimen-1.0-SNAPSHOT.jar
 
 ---
 
-## Uso de la Aplicación
+## Application Usage
 
-Al arrancar, la aplicación realiza las siguientes acciones automáticamente:
+### List all movies
 
-### Listar todas las películas
-
-En `Main.java`, al iniciar se ejecuta `getAllMovies()` que consulta la tabla `films` y muestra por consola cada película en el siguiente formato:
+At startup, `getAllMovies()` is executed to fetch all records from the `films` table and display them in the console:
 
 ```
-Movie{title='El Señor de los Anillos', year=2001, director='Peter Jackson', actors=[Elijah Wood, Ian McKellen, ...], filmAffinityScore=8.8, filmDescription='...', imgUrl='https://...', price=9.99}
+Movie{title='The Lord of the Rings', year=2001, director='Peter Jackson', actors=[Elijah Wood, Ian McKellen, ...], filmAffinityScore=8.8, filmDescription='...', imgUrl='https://...', price=9.99}
 ```
 
-### Crear una película (vía `MovieView`)
+---
 
-La clase `MovieView` permite crear una película de forma interactiva solicitando los siguientes datos por consola:
+### Create a movie (via MovieView)
+
+`MovieView` allows interactive movie creation via console prompts:
 
 ```
-Escriba el título de la película:
-> El Señor de los Anillos: La Comunidad del Anillo
+Enter movie title:
+> The Lord of the Rings: The Fellowship of the Ring
 
-Escriba el género de la película:
-> Fantasía / Aventura
+Enter movie genre:
+> Fantasy / Adventure
 
-Escriba el año de la película:
+Enter release year:
 > 2001
 
-Escriba la sinopsis de la película:
-> Un hobbit emprende un viaje para destruir el Anillo Único...
+Enter movie synopsis:
+> A hobbit begins a journey to destroy the One Ring...
 
-escribame el nombre de uno de sus actores/actrices.
+Enter an actor/actress name:
 > Elijah Wood
 
-¿Hay más actores?  s->si / otra cosa-> no.
+Are there more actors? s->yes / other key->no
 > s
 
-Escriba su nota en FilmAffinity(#.##)
+Enter FilmAffinity score (#.##):
 > 8.8
 
-Escriba la URL de la imagen:
-> https://ejemplo.com/imagen.jpg
+Enter image URL:
+> https://example.com/image.jpg
 
-Escriba el director de la película:
+Enter movie director:
 > Peter Jackson
 
-Escriba la valoración de la película:
+Enter movie price:
 > 9.99
 ```
 
 ---
 
-## Estructura de Clases
+## Class Structure
 
-### `Movie.java` — Modelo
+### `Movie.java` — Model
 
-Representa una película con los siguientes atributos:
+Represents a movie entity:
 
-| Campo | Tipo | Descripción |
+| Field | Type | Description |
 |---|---|---|
-| `id` | `int` | Identificador único (auto-generado por la BD) |
-| `title` | `String` | Título de la película |
-| `year` | `int` | Año de estreno |
-| `director` | `String` | Director/a |
-| `actors` | `String[]` | Array de actores/actrices |
-| `filmAffinityScore` | `double` | Puntuación en FilmAffinity |
-| `filmDescription` | `String` | Sinopsis o descripción |
-| `imgUrl` | `String` | URL de la imagen/carátula |
-| `price` | `double` | Precio de alquiler o compra |
+| `id` | `int` | Unique identifier (auto-generated) |
+| `title` | `String` | Movie title |
+| `year` | `int` | Release year |
+| `director` | `String` | Director |
+| `actors` | `String[]` | Actors array |
+| `filmAffinityScore` | `double` | FilmAffinity rating |
+| `filmDescription` | `String` | Synopsis |
+| `imgUrl` | `String` | Cover image URL |
+| `price` | `double` | Rental or purchase price |
 
-### `DBManager.java` — Configuración
+---
 
-Gestiona la conexión JDBC de forma estática mediante el patrón Singleton simplificado:
+### `DBManager.java` — Configuration
 
-- `innitConnection()` → abre y retorna la conexión.
-- `closeConnection()` → cierra la conexión activa.
+Handles JDBC connection using a simplified Singleton pattern:
 
-### `MovieRepositoryImp.java` — Repositorio
+- `initConnection()` → Opens and returns connection
+- `closeConnection()` → Closes active connection
 
-Implementa las operaciones CRUD directamente con `Statement` y SQL plano:
+---
+
+### `MovieRepositoryImp.java` — Repository
+
+Implements CRUD operations using SQL and `Statement`:
 
 - `createMovie(Movie movie)` → `INSERT INTO films ...`
 - `getAllMovies()` → `SELECT * FROM films`
 
-### `MovieController.java` — Controlador
+---
 
-Actúa como intermediario entre la vista y el repositorio:
+### `MovieController.java` — Controller
 
-- `createMovieController(Movie movie)` → delega la creación.
-- `addMovie(Movie movie)` → comprueba duplicados antes de insertar.
+Acts as intermediary between View and Repository:
 
-### `MovieView.java` — Vista
-
-Maneja la interfaz de usuario en consola usando `Scanner` para recoger los datos y crear objetos `Movie`.
+- `createMovieController(Movie movie)` → Delegates creation
+- `addMovie(Movie movie)` → Checks duplicates before insert
 
 ---
 
-## Notas de Desarrollo
+### `MovieView.java` — View
 
-- El proyecto usa **JDBC con `Statement`** directamente (sin PreparedStatement), lo que lo hace susceptible a SQL injection. Para un entorno de producción se recomienda usar `PreparedStatement`.
-- Los actores se almacenan en la base de datos como una **cadena de texto separada por comas** y se parsean con `split(",\\s*")` al recuperarlos.
-- La conexión a la BD se abre y se cierra en cada operación del repositorio. Para mejorar el rendimiento en producción convendría implementar un **connection pool** (por ejemplo con HikariCP).
+Handles console UI using `Scanner` to collect input and create `Movie` objects.
 
 ---
 
-## Licencia
+## Development Notes
 
-Este proyecto es de carácter académico y tiene una licencia CC BY
+- Uses **JDBC with `Statement`** (no `PreparedStatement`), making it vulnerable to SQL injection. Production environments should use `PreparedStatement`.
+- Actors are stored as a **comma-separated string** and parsed using `split(",\\s*")`.
+- Database connections are opened and closed per repository operation. For better performance, a **connection pool** (e.g., HikariCP) is recommended.
+
+---
+
+## License
+
+This is an academic project released under the **CC BY** license.
