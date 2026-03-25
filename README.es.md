@@ -28,10 +28,6 @@ Las funcionalidades principales incluyen:
 - Crear nuevas películas de forma interactiva desde la consola.
 - Gestionar información detallada: título, año, director, actores, puntuación FilmAffinity, descripción, URL de imagen y precio.
 
----
-
-## Tecnologías
-
 | Tecnología | Versión | Rol |
 |---|---|---|
 | Java | 21 | Lenguaje principal |
@@ -41,6 +37,10 @@ Las funcionalidades principales incluyen:
 | IntelliJ IDEA / Eclipse | — | IDE recomendado |
 
 ---
+---
+
+## Tecnologías
+
 
 ## Arquitectura del Proyecto
 
