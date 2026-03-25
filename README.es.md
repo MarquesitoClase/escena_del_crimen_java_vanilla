@@ -1,3 +1,4 @@
+Me lo pasas TAL CUAL con el texto en ingles porfa?
 # 🎬 Escena del Crimen — Gestión de Películas con Java & MySQL
 
 > Aplicación de consola en Java puro (vanilla) que permite gestionar un catálogo de películas conectado a una base de datos MySQL. Implementa el patrón MVC completo con acceso a datos mediante JDBC.
@@ -276,10 +277,9 @@ Maneja la interfaz de usuario en consola usando `Scanner` para recoger los datos
 - El proyecto usa **JDBC con `Statement`** directamente (sin PreparedStatement), lo que lo hace susceptible a SQL injection. Para un entorno de producción se recomienda usar `PreparedStatement`.
 - Los actores se almacenan en la base de datos como una **cadena de texto separada por comas** y se parsean con `split(",\\s*")` al recuperarlos.
 - La conexión a la BD se abre y se cierra en cada operación del repositorio. Para mejorar el rendimiento en producción convendría implementar un **connection pool** (por ejemplo con HikariCP).
-- El campo `filmAffinityScore` tiene una errata en la base de datos (`filmAffinittyScore` con doble `t`) que debe mantenerse consistente entre el código Java y el esquema SQL.
 
 ---
 
 ## Licencia
 
-Este proyecto es de carácter académico y no incluye licencia de distribución. Uso libre para fines educativos.
+Este proyecto es de carácter académico y tiene una licencia CC BY
